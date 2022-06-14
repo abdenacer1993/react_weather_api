@@ -1,23 +1,46 @@
-import logo from './logo.svg';
+import axios from 'axios';
+import {  useEffect, useState } from 'react';
 import './App.css';
+import Card from './components/card/Card';
+import Form from './components/form/Form';
+
 
 function App() {
+  
+  const [weathers, setWeathers] = useState([])
+  const [querry, setQuerry] = useState("")
+  //const [loading, setLoading] = useState(true)
+
+  const getWeather = async ()=>{
+    try {
+      const response = await axios.get(`https://api.weatherapi.com/v1/current.json?key=f0d7e93ba0674e9ba89212131221306&q=${querry}&aqi=no`);
+      setWeathers(response.data);
+      console.log(response)
+      //setLoading(false)
+     
+    } catch (error) {
+      console.error(error);
+      //setLoading(false)
+
+    }
+  }
+  useEffect(() => {
+     getWeather()
+  }, [querry])
+
+  const handleClick=(e,countryName)=>{
+    setQuerry(countryName);
+    getWeather()
+    e.preventDefault();
+  }
+  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form  handleClick={handleClick}/>
+      {querry &&
+        <Card weathers={weathers}/>}
+      
     </div>
   );
 }
