@@ -2,6 +2,9 @@ import React from "react";
 import "./Card.css";
 
 const Card = ({weathers}) => {
+  var d = new Date();
+  var dayName = d.toString().split(" ")[0];
+  
   return (
     <div className="frame">
       <div className="moon">
@@ -32,18 +35,14 @@ const Card = ({weathers}) => {
                   <td>{weathers.location && weathers.location.name}</td>
                 </tr>
                 <tr>
-                  <td>Wed</td>
-                  <td>23° | 10°</td>
+                  <td>{dayName}</td>
+                  <td>{weathers.current && weathers.current.temp_c}° | {weathers.current && weathers.current.temp_c-10}°</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-        <div className="proverb">
-          “Frogs croaking in the lagoon,
-          <br />
-          Means rain will come real soon.”
-        </div>
+        
       </div>
       <div className="drop-big-1" />
       <div className="drop-big-2" />
